@@ -1,0 +1,20 @@
+{
+  "name": "overload.js",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "overload operators in js!",
+  "main": "overload.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mordvinsky/overloaded.git"
+  },
+  "author": "Alexandr Shaporov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mordvinsky/overloaded/issues"
+  },
+  "homepage": "https://github.com/mordvinsky/overloaded#readme"
+}
