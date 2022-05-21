@@ -1,7 +1,7 @@
 import { $, E, makeOverloadable, Overload, operators} from "./main.js";
 
 // console.group("operators codes:")
-// operators.forEach(({code}) => {console.log(code)})
+operators.forEach(({code}) => {console.log(code)})
 // console.groupEnd()
 // console.log(" ")
 
@@ -38,7 +38,7 @@ Overload["<<"](Array, Array, ( l, r) => { // Когда один из аргум
 })
 
 Overload["~"](Wallet, ( arg) => {
-  return arg;
+  return "TILDA";
 })
 
 
@@ -46,7 +46,9 @@ console.log("start test");
 console.log("Different syntax")
 
 console.log(
-  Overload(w1 + w2),
-  E(w1+w2),
-  $(w1+w2)
+  Overload(~w1),
+  E(~w1),
+  $(~w1)
 )
+
+
