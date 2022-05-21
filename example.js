@@ -1,4 +1,6 @@
-import { C, E, makeOverloadable, Overload } from "./main.js";
+import { C, E, makeOverloadable, operators, Overload } from "./main.js";
+
+operators.forEach(({code}) => {console.log(code)})
 
 class Wallet {
   constructor( money ) {
@@ -32,6 +34,11 @@ Overload["<<"](Array, Array, (l, r) => { // Когда один из аргум�
   return l;
 })
 
+Overload["~"](Wallet, (arg) => {
+  console.log("TILDA OPERATOR");
+  return arg;
+})
+
 
 console.log("start test");
 
@@ -53,4 +60,8 @@ console.log(
 
 console.log(
   E(C([1,2,3]) << C([4,5,6])) //  Массивы тоже заворачиваются в C(), чтобы не изменять нативные Array.prototype.valueOf. Массив доступен внутри функции перегрузки через arg.value
+)
+
+console.log(
+  E(~w1)
 )

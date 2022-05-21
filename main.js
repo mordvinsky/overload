@@ -42,10 +42,6 @@ export const operators = [
     code: MAGIC_A%MAGIC_B
   },
   {
-    key: "~",
-    code: ~MAGIC_A
-  },
-  {
     key: "<<",
     code: MAGIC_A<<MAGIC_B
   },
@@ -58,13 +54,20 @@ export const operators = [
     code: MAGIC_A>>>MAGIC_B
   },
   {
+    key: "~",
+    code: ~MAGIC_A,
+    unary: true
+  },
+  {
     key: "+u",
-    code: +MAGIC_A
+    code: +MAGIC_A,
+    unary: true
   },
   {
     key: "-u",
-    code: -MAGIC_A
-  }
+    code: -MAGIC_A,
+    unary: true
+  },
 ];
 
 // ИНИЦИАЛИЗАЦИЯ
@@ -79,19 +82,29 @@ Overload.resolve = ( code ) => {
 };
 
 // Динамическое создание методов перегрузок вида Overload["+"] и вспомогательных методов разрешения перегрузок
-operators.forEach(({key}) => {
-  Overload[key] = function( leftProto, rightProto, overloadingFn ) {
-    Overload.storage[key].push({
-      leftProto,
-      rightProto,
-      overloadingFn
-    });
-  };
+operators.forEach(({key, unary}) => {
+  if (unary) {
+    Overload[key] = function( leftProto, overloadingFn ) {
+      Overload.storage[key].push({
+        leftProto,
+        overloadingFn
+      });
+    };
+  } else {
+    Overload[key] = function( leftProto, rightProto, overloadingFn ) {
+      Overload.storage[key].push({
+        leftProto,
+        rightProto,
+        overloadingFn
+      });
+    };
+  }
+
   Overload.resolve[key] = () => {
     const match = Overload.storage[key].find(rule => {
       console.log(rule)
       if ( !( Overload.leftArg instanceof rule.leftProto ) ) return false;
-      if ( !( Overload.rightArg instanceof rule.rightProto ) ) return false;
+      if ( !unary && !( Overload.rightArg instanceof rule.rightProto ) ) return false;
       return true;
     });
     if ( !match || !match.overloadingFn ) return console.error("| OVERLOAD RESOLVE FAILED | Can't find overloading function");
